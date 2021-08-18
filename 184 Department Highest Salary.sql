@@ -1,14 +1,22 @@
 # https://leetcode.com/problems/department-highest-salary/
-
 SELECT
-    d.name as Department, e2.name as Employee, s.Salary
+    d.name AS 'Department',
+    e.name AS 'Employee',
+    Salary
 FROM
-    Department d 
-    JOIN (SELECT DepartmentId, max(Salary) as Salary
-         FROM Employee 
-         GROUP BY DepartmentId) s ON d.Id = s.DepartmentId
-    JOIN Employee e2 ON s.DepartmentId = e2.DepartmentId and s.Salary = e2.Salary
+    Employee e
+        JOIN
+    Department d ON e.DepartmentId = d.Id
+WHERE
+    (e.DepartmentId , Salary) IN
+    (   SELECT
+            DepartmentId, MAX(Salary)
+        FROM
+            Employee
+        GROUP BY DepartmentId
+    )
 ;
+
 
 # Another solution
 SELECT 
